@@ -1,7 +1,8 @@
 const PDF = require('pdfkit');
 
 module.exports.createPdf = function createPdf(user) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+        if (!user[0]) reject({result: false});
         let data = [];
         let length = 0;
         doc = new PDF();
@@ -13,8 +14,8 @@ module.exports.createPdf = function createPdf(user) {
             length += chunk.length;
             data.push(chunk);
         });
-        doc.text(user.firstName + ' ' + user.lastName);
-        doc.image(user.img, {fit: [100, 100]});
+        doc.text(user[0].firstName + ' ' + user[0].lastName);
+        doc.image(user[0].img, {fit: [100, 100]});
         doc.end();
     });
 };
